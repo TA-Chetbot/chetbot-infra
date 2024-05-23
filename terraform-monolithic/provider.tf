@@ -2,6 +2,7 @@ provider "google" {
   project = "ta-chetbot"
   region = "us-central1"
 }
+
 terraform {
   backend "gcs" {
     bucket = "ta-chetbot-bucket"
