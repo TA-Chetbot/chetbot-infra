@@ -18,6 +18,7 @@ resource "google_service_account_key" "artifact_registry_key" {
 resource "google_container_node_pool" "general" {
   name       = "general"
   cluster    = google_container_cluster.primary.id
+  initial_node_count = 1
 
   management {
     auto_repair     = true
@@ -25,14 +26,13 @@ resource "google_container_node_pool" "general" {
   }
 
   autoscaling {
-    min_node_count = 0
+    min_node_count = 1
     max_node_count = 10
   }
 
   node_config {
     preemptible  = false
-    machine_type = "n1-standard-2"
-    disk_size_gb = 15
+    machine_type = "e2-standard-4"
 
     labels = {
         role = "general"

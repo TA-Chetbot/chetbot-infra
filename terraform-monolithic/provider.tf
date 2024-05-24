@@ -1,6 +1,6 @@
 provider "google" {
   project = "ta-chetbot"
-  region = "us-central1"
+  region = "asia-southeast2"
 }
 
 terraform {
