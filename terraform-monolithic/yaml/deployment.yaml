@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+      - name: fastapi
+        image: us-west1-docker.pkg.dev/ta-chetbot/fastapi-full-app/fastapiapp:gunicorntorchcpu
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "1000m"

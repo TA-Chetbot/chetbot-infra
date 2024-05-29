@@ -38,5 +38,39 @@ resource "google_container_node_pool" "c2-node-pool" {
     oauth_scopes = [
         "https://www.googleapis.com/auth/cloud-platform"
     ]
+
+    labels = {
+      nodepool = "c2"
+    }
+  }
+}
+
+resource "google_container_node_pool" "e2-node-pool" {
+  name       = "e2-node-pool"
+  cluster    = google_container_cluster.primary.id
+  initial_node_count = 1
+
+  management {
+    auto_repair     = true
+    auto_upgrade    = true
+  }
+
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 2
+  }
+
+  node_config {
+    preemptible  = false
+    machine_type = "e2-standard-4"
+
+    service_account = google_service_account.kubernetes.email
+    oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+    ]
+    
+    labels = {
+      nodepool = "e2"
+    }
   }
 }
