@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-ingress
+  annotations:
+    ingressClassName: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: fastapi-heavy-service
+      port:
+        number: 8000
+  rules:
+  - http:
+      paths:
+      - path: /get_answer
+        pathType: Prefix
+        backend:
+          service:
+            name: fastapi-heavy-service
+            port:
+              number: 8000
+      - path: /preprocess_question
+        pathType: Prefix
+        backend:
+          service:
+            name: fastapi-light-service
+            port:
+              number: 8000

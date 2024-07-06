@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-heavy-service
+spec:
+  selector:
+    app: fastapi-heavy
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-light-service
+spec:
+  selector:
+    app: fastapi-light
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP

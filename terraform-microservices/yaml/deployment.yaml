@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-heavy-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fastapi-heavy
+  template:
+    metadata:
+      labels:
+        app: fastapi-heavy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nodepool
+                operator: In
+                values:
+                - c2
+      containers:
+      - name: fastapi
+        image: us-west1-docker.pkg.dev/ta-chetbot/fastapi-full-app/fastapiapp:gunicorntorchcpu
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "1000m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-light-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-light
+  template:
+    metadata:
+      labels:
+        app: fastapi-light
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nodepool
+                operator: In
+                values:
+                - e2
+      containers:
+      - name: fastapi
+        image: us-west1-docker.pkg.dev/ta-chetbot/fastapi-full-app/fastapiapp:gunicorntorchcpu
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "500m"
